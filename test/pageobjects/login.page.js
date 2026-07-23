@@ -23,10 +23,9 @@ class LoginPage extends BasePage {
     }
 
     async login(username, password) {
-        await this.usernameInput.waitForDisplayed();
-        await this.usernameInput.setValue(username);
-        await this.passwordInput.setValue(password);
-        await this.loginButton.click();
+        await this.setValue(this.usernameInput, username);
+        await this.setValue(this.passwordInput, password);
+        await this.click(this.loginButton);
     }
 }
 
