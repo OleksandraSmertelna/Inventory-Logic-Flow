@@ -3,19 +3,19 @@ const BasePage = require('./base.page');
 class LoginPage extends BasePage {
 
     get usernameInput() {
-        return $('#user-name');
+        return $('//input[@id="user-name"]');
     }
 
     get passwordInput() {
-        return $('#password');
+        return $('//input[@id="password"]');
     }
 
     get loginButton() {
-    return $('#login-button');
+        return $('//input[@id="login-button"]');
     }
 
-    get errorMessage() {
-        return $('[data-test="error"]');
+    get errorMessage() { 
+        return $('[data-test="error"]'); 
     }
 
     async open() {
