@@ -5,6 +5,8 @@ describe('Login functionality', () => {
 
     beforeEach(async () => {
         await LoginPage.open();
+        await browser.execute(() => window.localStorage.clear());
+        await LoginPage.open();
     });
 
     it('UC-3 - should show an error for invalid credentials', async () => {
