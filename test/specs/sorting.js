@@ -7,11 +7,12 @@ describe('Inventory Sorting', () => {
 
     beforeEach(async () => {
         await LoginPage.open();
-        await LoginPage.login(
+        await browser.execute(() => window.localStorage.clear());
+        await LoginPage.open();
+        await LoginPage.loginAsStandardUser(
             users.standardUser.username,
             users.standardUser.password
         );
-        await InventoryPage.isLoaded();
     });
 
     it('UC-1 - should sort products by price (low to high)', async () => {

@@ -1,4 +1,5 @@
 const BasePage = require('./base.page');
+const InventoryPage = require('./inventory.page');
 
 class LoginPage extends BasePage {
 
@@ -14,8 +15,8 @@ class LoginPage extends BasePage {
         return $('//input[@id="login-button"]');
     }
 
-    get errorMessage() { 
-        return $('[data-test="error"]'); 
+    get errorMessage() {
+        return $('//h3[contains(text(),"Epic sadface")]');
     }
 
     async open() {
@@ -26,6 +27,15 @@ class LoginPage extends BasePage {
         await this.setValue(this.usernameInput, username);
         await this.setValue(this.passwordInput, password);
         await this.click(this.loginButton);
+    }
+
+    async loginAsStandardUser(username, password) {
+        await this.login(username, password);
+        await InventoryPage.waitUntilLoaded();
+    }
+
+    async getErrorMessage() {
+        return await this.getText(this.errorMessage);
     }
 }
 

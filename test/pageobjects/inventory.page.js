@@ -3,7 +3,7 @@ const BasePage = require('./base.page');
 class InventoryPage extends BasePage {
 
     get title() {
-        return $('//span[@class="title"]');
+        return $('//span[@class="title"]'); //return $('//span[text()="Products"]');
     }
 
     get sortDropdown() {
@@ -14,7 +14,7 @@ class InventoryPage extends BasePage {
         return $('//span[@class="shopping_cart_badge"]');
     }
 
-    async isLoaded() {
+    async waitUntilLoaded() {
         await this.title.waitForDisplayed();
     }
 
@@ -23,10 +23,8 @@ class InventoryPage extends BasePage {
     }
 
     async getCartBadgeValue() {
-        await this.cartBadge.waitForDisplayed();
-        return await this.cartBadge.getText();
+        return await this.getText(this.cartBadge);
     }
-
 }
 
 module.exports = new InventoryPage();

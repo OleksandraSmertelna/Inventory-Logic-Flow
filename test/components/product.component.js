@@ -1,41 +1,35 @@
-class ProductComponent {
+const BasePage = require('../pageobjects/base.page');
 
-    get inventoryItems() {
-        return $$('//div[@class="inventory_item"]');
-    }
+class ProductComponent extends BasePage {
 
     get productPrices() {
         return $$('//div[@class="inventory_item_price"]');
     }
 
     addButton(productName) {
-        return $(
-            `//div[text()="${productName}"]
-            /ancestor::div[@class="inventory_item"]
-            //button[text()="Add to cart"]`
-        );
+        const xpath =
+            `//div[normalize-space()="${productName}"]/ancestor::div[@class="inventory_item"]//button[text()="Add to cart"]`;
+        return $(xpath);
     }
 
     removeButton(productName) {
-        return $(
-            `//div[text()="${productName}"]
-            /ancestor::div[@class="inventory_item"]
-            //button[text()="Remove"]`
-        );
+        const xpath =
+            `//div[normalize-space()="${productName}"]/ancestor::div[@class="inventory_item"]//button[text()="Remove"]`;
+        return $(xpath);
     }
 
     async addProduct(productName) {
-        await this.addButton(productName).click();
+        await this.click(this.addButton(productName));
     }
 
     async removeProduct(productName) {
-        await this.removeButton(productName).click();
+        await this.click(this.removeButton(productName));
     }
 
     async getPrices() {
         const prices = [];
         for (const priceElement of await this.productPrices) {
-            const priceText = await priceElement.getText();
+            const priceText = await this.getText(priceElement);
             prices.push(
                 Number(priceText.replace('$', ''))
             );

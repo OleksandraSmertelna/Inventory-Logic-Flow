@@ -22,11 +22,6 @@ class BasePage {
         return await element.getText();
     }
 
-
-    async isDisplayed(element) {
-        return await element.isDisplayed();
-    }
-
 }
 
 module.exports = BasePage;

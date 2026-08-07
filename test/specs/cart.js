@@ -9,16 +9,17 @@ describe('Cart State Logic', () => {
     
     beforeEach(async () => {
         await LoginPage.open();
-        await LoginPage.login(
+        await browser.execute(() => window.localStorage.clear());
+        await LoginPage.open();
+        await LoginPage.loginAsStandardUser(
             users.standardUser.username,
             users.standardUser.password
         );
-        await InventoryPage.isLoaded();
     });
 
     cartData.forEach((data) => {
 
-        it('UC-2 - should update cart badge after removing a product', async () => {
+        it(`UC-2 - badge updates for [${data.productsToAdd.join(', ')}] after removing ${data.productToRemove}`, async () => {
             for (const product of data.productsToAdd) {
                 await ProductComponent.addProduct(product);
             }
