@@ -1,45 +1,40 @@
 require('dotenv').config();
 
 exports.config = {
-
     runner: 'local',
     
     specs: [
-    './test/specs/**/*.js'
+        './test/specs/**/*.js'
     ],
     
-    maxInstances: 2,
-
+    maxInstances: process.env.CI ? 1 : 2, 
     capabilities: [
         {
-            browserName: 'firefox',
-            maxInstances: 1
+            browserName: 'chrome',
+            maxInstances: 1,
+            'goog:chromeOptions': {
+                args: process.env.CI 
+                    ? ['--headless', '--disable-gpu', '--disable-dev-shm-usage', '--no-sandbox'] 
+                    : []
+            }
         },
-
         {
-            browserName: 'MicrosoftEdge',
-            maxInstances: 1
+            browserName: 'firefox',
+            maxInstances: 1,
+            'moz:firefoxOptions': {
+                args: process.env.CI ? ['-headless'] : []
+            }
         }
     ],
 
-
     logLevel: 'error',
-    
     bail: 0,
-    
     baseUrl: 'https://www.saucedemo.com',
-    
     waitforTimeout: 10000,
-    
     connectionRetryTimeout: 120000,
-    
     connectionRetryCount: 3,
-    
     framework: 'mocha',
-    
-    reporters: [
-    'spec',
-    ],
+    reporters: ['spec'],
 
     mochaOpts: {
         ui: 'bdd',
