@@ -1,0 +1,36 @@
+name: WDIO Automation CI
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js environment
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run WebdriverIO Tests
+      run: npm run test
+      env:
+        CI: true
+
+    - name: Upload Test Report Artifact
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: wdio-execution-report
+        path: ./errorShots/
+        retention-days: 30
